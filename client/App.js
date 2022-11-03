@@ -1,11 +1,18 @@
 import React from 'react';
-import {Text, View} from 'react-native';
+import * as eva from '@eva-design/eva';
+import {ApplicationProvider} from '@ui-kitten/components';
+import {View} from 'react-native';
+import Header from './component/Header';
 
 const App = () => {
+  console.log('App');
+
   return (
-    <View>
-      <Text>Lets build an invoice app</Text>
-    </View>
+    <ApplicationProvider {...eva} theme={eva.light}>
+      <View>
+        <Header />
+      </View>
+    </ApplicationProvider>
   );
 };
 
