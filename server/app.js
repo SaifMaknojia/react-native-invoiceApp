@@ -1,17 +1,19 @@
+//packages
 const express = require("express");
 const morgan = require("morgan");
 const app = express();
 const bodyParser = require("body-parser");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-const User = require("./models/userModel");
+
+//coming from codebase
 const testRouter = require("./routes/testRoutes");
 const userRouter = require("./routes/userRoutes");
+const verifyJwt = require("./middleware/verifyJWT");
 
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+//Cors error
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header(
@@ -25,14 +27,9 @@ app.use("/", testRouter);
 
 app.use("/api/v1/users", userRouter);
 
-app.get("/", (req, res) => {
-  res.send({
-    msg: "Hello World",
-  });
-});
-
-app.get("/getusername", (req, res) => {
-  res.json({ isLoggedIn: this.true, username: req.user.username });
+//just for understanding
+app.get("/getusername", verifyJwt, (req, res) => {
+  res.json({ isLoggedIn: true, username: req.user.username });
 });
 
 module.exports = app;
