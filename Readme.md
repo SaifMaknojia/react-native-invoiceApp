@@ -1,6 +1,6 @@
 ## Before Trying to Fork the project or clone it. Read the below instruction
 
-## Client-
+## Client
 
 uses React-native for mobile application with kitten-ui and other dependencies.
 
