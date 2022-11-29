@@ -8,16 +8,14 @@
 
 import React from 'react';
 import {View, StyleSheet} from 'react-native';
-import Login from './screens/Login';
 import * as eva from '@eva-design/eva';
-import {ApplicationProvider, Layout, Text} from '@ui-kitten/components';
+import {ApplicationProvider, Text} from '@ui-kitten/components';
+import GetStarted from './screens/GetStarted';
 
 const App = () => {
   return (
     <ApplicationProvider {...eva} theme={eva.light}>
-      <View style={styles.container}>
-        <Login />
-      </View>
+      <GetStarted />
     </ApplicationProvider>
   );
 };
