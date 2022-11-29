@@ -1,4 +1,5 @@
-import {Button, View, StyleSheet, Text} from 'react-native';
+import {View, StyleSheet, Text, TouchableOpacity} from 'react-native';
+import {Button} from '@ui-kitten/components';
 import React from 'react';
 import {Formik} from 'formik';
 import {Input} from '@ui-kitten/components';
@@ -19,7 +20,7 @@ const SignupSchema = Yup.object().shape({
 const Register = () => {
   return (
     <Formik
-      style={styles.formik}
+      // style={styles.formik}
       initialValues={{email: '', userName: '', password: ''}}
       onSubmit={values => console.log(values)}>
       {({handleChange, handleBlur, handleSubmit, values}) => (
@@ -27,26 +28,32 @@ const Register = () => {
           <Input
             onChangeText={handleChange('username')}
             style={styles.inputText}
-            // size="small"
             placeholder="Enter a Username"
             label="Username"
           />
           <Input
             onChangeText={handleChange('email')}
             style={styles.inputText}
-            // size="small"
             placeholder="Email"
             label="Email"
           />
           <Input
-            onChangeText={handleChange('username')}
+            onChangeText={handleChange('password')}
             style={styles.inputText}
-            // size="small"
-            placeholder="Active"
-            label="Username"
+            placeholder="Password"
+            label="password"
           />
-          <Button style={styles.button} onPress={handleSubmit} title="Submit" />
-          <Text clas>Sign In</Text>
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity>
+              <Text style={[styles.button, styles.colorPrimary]}>Register</Text>
+            </TouchableOpacity>
+            <View>
+              <Text style={styles.text}>Not a member</Text>
+              <TouchableOpacity style={styles.text}>
+                <Text style={[styles.button, styles.text]}>Sign In</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
         </View>
       )}
     </Formik>
@@ -61,11 +68,26 @@ const styles = StyleSheet.create({
   formik: {
     justifyContent: 'center',
     alignItems: 'center',
-    height: '90%',
+  },
+  colorPrimary: {
+    backgroundColor: '#7e88c3',
+    color: 'white',
   },
   button: {
     marginTop: 10,
-    backgroundColor: '#7e88c3',
+
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+    marginRight: 2,
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  text: {
+    margin: 0,
+    padding: 0,
   },
 });
 

@@ -13,6 +13,7 @@ const Login = () => {
 const styles = StyleSheet.create({
   container: {
     height: '90%',
+    justifyContent: 'center',
   },
 });
 

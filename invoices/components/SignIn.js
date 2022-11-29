@@ -1,41 +1,68 @@
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, Alert} from 'react-native';
 import React, {useState} from 'react';
-import {Formik, resetForm, useFormikContext} from 'formik';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import {Input, Button} from '@ui-kitten/components';
 
 const SignIn = () => {
-  const initialValues = {username: '', password: ''};
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
+  const apiRequestOptions = {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({username: username, password: password}),
+  };
+
+  const handleLogin = async () => {
+    console.log('first');
+    try {
+      const res = await fetch(
+        'http://localhost:8000/api/v1/users/login/',
+        apiRequestOptions,
+      );
+      const result = await res.json();
+      console.log(result);
+      if (result) {
+        console.log('first');
+      }
+      await AsyncStorage.setItem('token', result.token);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const getData = async () => {
+    try {
+      const jsonValue = await AsyncStorage.getItem('token');
+      console.log(jsonValue);
+    } catch (e) {
+      // error reading value
+    }
+  };
+  console.log(getData());
 
   return (
-    <Formik
-      style={styles.formik}
-      initialValues={initialValues}
-      onSubmit={values => {
-        console.log(values);
-      }}>
-      {({handleChange, handleSubmit, values}) => (
-        <View style={styles.formik}>
-          <Input
-            onChangeText={handleChange('username')}
-            style={styles.inputText}
-            // value={values.username}
-            placeholder="Enter a Username"
-            label="Username"
-          />
-          <Input
-            onChangeText={handleChange('password')}
-            style={styles.inputText}
-            placeholder="Enter your password"
-            label="Password"
-            // value={values.password}
-          />
-          <Button style={styles.button} onPress={handleSubmit} size="medium">
-            Submit
-          </Button>
-          <Text>Register</Text>
-        </View>
-      )}
-    </Formik>
+    <View style={styles.formik}>
+      <Input
+        style={styles.inputText}
+        value={username}
+        onChangeText={nextValue => setUsername(nextValue)}
+        placeholder="Enter a Username"
+        label="Username"
+      />
+      <Input
+        style={styles.inputText}
+        value={password}
+        placeholder="Enter your password"
+        onChangeText={nextValue => setPassword(nextValue)}
+        label="Password"
+      />
+      <Button style={styles.button} onPress={handleLogin} size="medium">
+        Submit
+      </Button>
+      <Text>Register</Text>
+    </View>
   );
 };
 
