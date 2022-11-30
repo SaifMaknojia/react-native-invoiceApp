@@ -11,11 +11,12 @@ import {View, StyleSheet} from 'react-native';
 import * as eva from '@eva-design/eva';
 import {ApplicationProvider, Text} from '@ui-kitten/components';
 import GetStarted from './screens/GetStarted';
+import SignIn from './components/SignIn';
 
 const App = () => {
   return (
     <ApplicationProvider {...eva} theme={eva.light}>
-      <GetStarted />
+      <SignIn />
     </ApplicationProvider>
   );
 };
