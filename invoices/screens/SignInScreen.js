@@ -1,8 +1,25 @@
-import {View, StyleSheet, Dimensions, TouchableOpacity} from 'react-native';
-import {Text, Input, Button, CheckBox} from '@ui-kitten/components';
 import React from 'react';
+import {
+  View,
+  StyleSheet,
+  Dimensions,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+} from 'react-native';
+import {Text, Input, Button, CheckBox, Icon} from '@ui-kitten/components';
 const {height} = Dimensions.get('window');
-const SignIn = () => {
+
+const SignInScreen = () => {
+  const [secureTextEntry, setSecureTextEntry] = React.useState(true);
+  const toggleSecureEntry = () => {
+    setSecureTextEntry(!secureTextEntry);
+  };
+
+  const renderIcon = props => (
+    <TouchableWithoutFeedback onPress={toggleSecureEntry}>
+      <Icon {...props} name={secureTextEntry ? 'eye-off' : 'eye'} />
+    </TouchableWithoutFeedback>
+  );
   return (
     <View style={styles.container}>
       <View>
@@ -15,11 +32,16 @@ const SignIn = () => {
           style={styles.input}
           size="large"
           placeholder="Enter Your Email"
+          accessoryRight={<Icon style={{fill: 'black'}} name="email-outline" />}
         />
         <Input
-          size="large"
           style={styles.input}
+          size="large"
           placeholder="Enter Your Password"
+          // caption={renderCaption}
+          accessoryRight={renderIcon}
+          secureTextEntry={secureTextEntry}
+          onChangeText={() => console.log('password')}
         />
         <View style={styles.checkboxContainer}>
           <CheckBox style={styles.checkbox} status="primary">
@@ -44,7 +66,8 @@ const SignIn = () => {
           {flexDirection: 'row'},
         ]}>
         <Text category="c1">Don't Have an account? </Text>
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => console.log('lets go to register Screen')}>
           <Text style={styles.textColor} category="c1">
             Register
           </Text>
@@ -66,6 +89,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 10,
     borderRadius: 20,
+    fill: 'black',
   },
   button: {
     marginTop: 10,
@@ -88,4 +112,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SignIn;
+export default SignInScreen;

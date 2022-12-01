@@ -12,7 +12,6 @@ exports.userRegistration = async (req, res) => {
   } else {
     user.password = await bcrypt.hash(user.password, 10);
     const dbUser = new User({
-      username: user.username.toLowerCase(),
       email: user.email.toLowerCase(),
       password: user.password,
     });

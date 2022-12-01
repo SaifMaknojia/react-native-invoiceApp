@@ -1,23 +1,20 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
-
 import React from 'react';
-import {View, StyleSheet} from 'react-native';
+import {StyleSheet} from 'react-native';
 import * as eva from '@eva-design/eva';
-import {ApplicationProvider, Text} from '@ui-kitten/components';
-import GetStarted from './screens/GetStarted';
-import SignIn from './components/SignIn';
+import {EvaIconsPack} from '@ui-kitten/eva-icons';
+import {ApplicationProvider, IconRegistry} from '@ui-kitten/components';
+import SignInScreen from './screens/SignInScreen';
+import RegisterScreen from './screens/RegisterScreen';
 
 const App = () => {
   return (
-    <ApplicationProvider {...eva} theme={eva.light}>
-      <SignIn />
-    </ApplicationProvider>
+    <>
+      <IconRegistry icons={EvaIconsPack} />
+      <ApplicationProvider {...eva} theme={eva.light}>
+        <RegisterScreen />
+        {/*     <SignInScreen /> */}
+      </ApplicationProvider>
+    </>
   );
 };
 
