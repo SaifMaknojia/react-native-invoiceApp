@@ -8,6 +8,7 @@ go inside the client folder and there are relevent information on how to setup a
 
 Step 1.
 Please follow the setup for installation below. https://reactnative.dev/docs/environment-setup
+
 install homebrew from here - https://brew.sh/
 
   1. For ios 
