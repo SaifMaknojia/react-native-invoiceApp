@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   View,
   StyleSheet,
@@ -6,20 +6,39 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
 } from 'react-native';
-import {Text, Input, Button, CheckBox, Icon} from '@ui-kitten/components';
+import {Text, Input, CheckBox, Icon} from '@ui-kitten/components';
+import {Formik} from 'formik';
+import {SignInValidationSchema} from '../components/Validations';
+
 const {height} = Dimensions.get('window');
 
 const SignInScreen = () => {
   const [secureTextEntry, setSecureTextEntry] = React.useState(true);
+  const [isAgreed, setIsAgreed] = useState(false);
+  const handleCheckbox = () => {
+    setIsAgreed(!isAgreed);
+  };
+
   const toggleSecureEntry = () => {
     setSecureTextEntry(!secureTextEntry);
   };
 
-  const renderIcon = props => (
-    <TouchableWithoutFeedback onPress={toggleSecureEntry}>
-      <Icon {...props} name={secureTextEntry ? 'eye-off' : 'eye'} />
-    </TouchableWithoutFeedback>
-  );
+  const RenderIcon = props => {
+    return (
+      <TouchableWithoutFeedback onPress={toggleSecureEntry}>
+        <Icon
+          fill={props.error ? 'red' : 'grey'}
+          {...props}
+          name={secureTextEntry ? 'eye-off' : 'eye'}
+        />
+      </TouchableWithoutFeedback>
+    );
+  };
+
+  const handleFormikSubmit = value => {
+    console.log(value);
+  };
+
   return (
     <View style={styles.container}>
       <View>
@@ -27,38 +46,96 @@ const SignInScreen = () => {
           Welcome Back!
         </Text>
       </View>
-      <View style={{marginTop: 10}}>
-        <Input
-          style={styles.input}
-          size="large"
-          placeholder="Enter Your Email"
-          accessoryRight={<Icon style={{fill: 'black'}} name="email-outline" />}
-        />
-        <Input
-          style={styles.input}
-          size="large"
-          placeholder="Enter Your Password"
-          // caption={renderCaption}
-          accessoryRight={renderIcon}
-          secureTextEntry={secureTextEntry}
-          onChangeText={() => console.log('password')}
-        />
-        <View style={styles.checkboxContainer}>
-          <CheckBox style={styles.checkbox} status="primary">
-            <Text style={{fontSize: 3}}> Remember Me</Text>
-          </CheckBox>
-          <TouchableOpacity>
-            <Text style={styles.textColor} category="c1">
-              Forgot Your Password
-            </Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-      <Button
-        onPress={() => console.log('button was clicked')}
-        style={styles.button}>
-        Sign In
-      </Button>
+      <Formik
+        validationSchema={SignInValidationSchema}
+        // validateOnChange={false}
+        validateOnBlur={true}
+        initialValues={{email: '', password: ''}}
+        onSubmit={values => handleFormikSubmit(values)}>
+        {({handleChange, handleSubmit, values, errors}) => (
+          <>
+            <View style={{marginTop: 10}}>
+              <Input
+                style={
+                  errors.email
+                    ? [styles.textInputError, styles.input]
+                    : styles.input
+                }
+                placeholderTextColor={errors.email ? 'red' : 'gray'}
+                onChangeText={handleChange('email')}
+                size="large"
+                placeholder="Enter Your Email"
+                value={values.email.toLowerCase()}
+                accessoryRight={
+                  <Icon
+                    fill={errors.email ? 'red' : 'grey'}
+                    name="email-outline"
+                  />
+                }
+              />
+              {errors.email ? (
+                <Text
+                  style={{fontSize: 10, color: 'red', paddingHorizontal: 25}}>
+                  {errors.email}
+                </Text>
+              ) : (
+                <Text
+                  style={{fontSize: 10, color: 'red', paddingHorizontal: 25}}>
+                  &nbsp;
+                </Text>
+              )}
+              <Input
+                style={
+                  errors.password
+                    ? [styles.textInputError, styles.input]
+                    : styles.input
+                }
+                size="large"
+                placeholder="Enter Your Password"
+                placeholderTextColor={errors.password ? 'red' : 'gray'}
+                onChangeText={handleChange('password')}
+                value={values.password}
+                accessoryRight={<RenderIcon error={errors.password} />}
+                secureTextEntry={secureTextEntry}
+              />
+              {errors.password ? (
+                <Text
+                  style={{fontSize: 10, color: 'red', paddingHorizontal: 25}}>
+                  {errors.password}
+                </Text>
+              ) : (
+                <Text
+                  style={{fontSize: 10, color: 'red', paddingHorizontal: 25}}>
+                  &nbsp;
+                </Text>
+              )}
+              <View style={styles.checkboxContainer}>
+                <CheckBox
+                  checked={isAgreed}
+                  onChange={handleCheckbox}
+                  style={styles.checkbox}
+                  status="primary">
+                  <Text style={{fontSize: 3}}> Remember Me</Text>
+                </CheckBox>
+                <TouchableOpacity>
+                  <Text
+                    // onPress={handleSubmit}
+                    style={styles.textColor}
+                    category="c1">
+                    Forgot Your Password
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+
+            <TouchableOpacity
+              style={styles.buttonContainer}
+              onPress={handleSubmit}>
+              <Text style={styles.button}>Sign In</Text>
+            </TouchableOpacity>
+          </>
+        )}
+      </Formik>
       <View
         style={[
           styles.checkbox,
@@ -87,13 +164,21 @@ const styles = StyleSheet.create({
   input: {
     width: '80%',
     paddingHorizontal: 20,
-    paddingVertical: 10,
+    paddingVertical: 5,
     borderRadius: 20,
     fill: 'black',
   },
-  button: {
+  buttonContainer: {
     marginTop: 10,
     backgroundColor: '#252945',
+    paddingVertical: 5,
+    borderRadius: 5,
+    paddingHorizontal: 12,
+  },
+  textInputError: {
+    borderColor: 'red',
+  },
+  button: {
     color: '#dfe3fa',
     borderRadius: 20,
     padding: 10,

@@ -7,31 +7,40 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 import {Text, Input, Button, CheckBox, Icon} from '@ui-kitten/components';
+import {Formik} from 'formik';
+import {RegisterValidationSchema} from '../components/Validations';
 
 const {height} = Dimensions.get('window');
 
 const RegisterScreen = () => {
-  const [isRememberMe, setRememberMe] = useState(false);
-  const [passwordEntryIcon, setPasswordEntryIcon] = React.useState(true);
+  const [passwordEntryIcon, setPasswordEntryIcon] = useState(true);
   const [confirmPasswordEntryIcon, setConfirmPasswordEntryIcon] =
-    React.useState(true);
-  console.log(isRememberMe);
-  const handlePasswordIcon = props => (
-    <TouchableWithoutFeedback
-      onPress={() => setPasswordEntryIcon(!passwordEntryIcon)}>
-      <Icon {...props} name={passwordEntryIcon ? 'eye-off' : 'eye'} />
-    </TouchableWithoutFeedback>
-  );
+    useState(true);
 
-  const handleConfirmPasswordIcon = props => (
-    <TouchableWithoutFeedback
-      onPress={() => setConfirmPasswordEntryIcon(!confirmPasswordEntryIcon)}>
-      <Icon {...props} name={confirmPasswordEntryIcon ? 'eye-off' : 'eye'} />
-    </TouchableWithoutFeedback>
-  );
+  const HandlePasswordIcon = props => {
+    return (
+      <TouchableWithoutFeedback
+        onPress={() => setPasswordEntryIcon(!passwordEntryIcon)}>
+        <Icon
+          fill={props.error && props.touched ? 'red' : 'grey'}
+          {...props}
+          name={passwordEntryIcon ? 'eye-off' : 'eye'}
+        />
+      </TouchableWithoutFeedback>
+    );
+  };
 
-  const handleCheckbox = () => {
-    setRememberMe(!isRememberMe);
+  const HandleConfirmPasswordIcon = props => {
+    return (
+      <TouchableWithoutFeedback
+        onPress={() => setConfirmPasswordEntryIcon(!confirmPasswordEntryIcon)}>
+        <Icon
+          fill={props.error && props.touched ? 'red' : 'grey'}
+          {...props}
+          name={confirmPasswordEntryIcon ? 'eye-off' : 'eye'}
+        />
+      </TouchableWithoutFeedback>
+    );
   };
 
   return (
@@ -41,52 +50,142 @@ const RegisterScreen = () => {
           Lets Get Started!
         </Text>
       </View>
-      <View style={{marginTop: 10}}>
-        <Input
-          style={styles.input}
-          size="large"
-          placeholder="Enter Your Email"
-          accessoryRight={<Icon name="email-outline" />}
-        />
-        <Input
-          style={styles.input}
-          size="large"
-          placeholder="Enter Your Password"
-          accessoryRight={handlePasswordIcon}
-          secureTextEntry={passwordEntryIcon}
-          onChangeText={() => console.log('password')}
-        />
-        <Input
-          style={styles.input}
-          size="large"
-          placeholder="Enter Your Password"
-          accessoryRight={handleConfirmPasswordIcon}
-          secureTextEntry={confirmPasswordEntryIcon}
-          onChangeText={() => console.log('password')}
-        />
-        <View style={styles.checkboxContainer}>
-          <CheckBox
-            checked={isRememberMe}
-            onChange={handleCheckbox}
-            style={styles.checkbox}
-            status="primary">
-            <Text style={{fontSize: 3}}> I agree to Terms and Conditions</Text>
-          </CheckBox>
-          <TouchableOpacity>
-            <Text style={styles.textColor} category="c1"></Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-      <Button
-        onPress={() => console.log('button was clicked')}
-        style={styles.button}>
-        Register
-      </Button>
+      <Formik
+        validationSchema={RegisterValidationSchema}
+        validateOnChange={false}
+        validateOnBlur={false}
+        initialValues={{
+          email: '',
+          password: '',
+          confirmPassword: '',
+          terms: false,
+        }}
+        onSubmit={values => console.log(values)}>
+        {({
+          handleChange,
+          handleSubmit,
+          values,
+          errors,
+          touched,
+          setFieldValue,
+        }) => (
+          <>
+            <View style={{marginTop: 10}}>
+              <Input
+                style={
+                  errors.email && touched.email
+                    ? [styles.textInputError, styles.input]
+                    : styles.input
+                }
+                size="large"
+                placeholder="Enter Your Email"
+                value={values.email.toLowerCase()}
+                onChangeText={handleChange('email')}
+                accessoryRight={
+                  <Icon
+                    fill={errors.email && touched.email ? 'red' : 'grey'}
+                    name="email-outline"
+                  />
+                }
+              />
+              {errors.email && touched.email ? (
+                <Text
+                  style={{fontSize: 10, color: 'red', paddingHorizontal: 25}}>
+                  {errors.email}
+                </Text>
+              ) : (
+                <Text
+                  style={{fontSize: 10, color: 'red', paddingHorizontal: 25}}>
+                  &nbsp;
+                </Text>
+              )}
+              <Input
+                style={
+                  errors.password && touched.password
+                    ? [styles.textInputError, styles.input]
+                    : styles.input
+                }
+                size="large"
+                onChangeText={handleChange('password')}
+                value={values.password}
+                placeholder="Enter Your Password"
+                accessoryRight={
+                  <HandlePasswordIcon
+                    error={errors.password}
+                    touched={touched.password}
+                  />
+                }
+                secureTextEntry={passwordEntryIcon}
+              />
+              {errors.password && touched.password ? (
+                <Text
+                  style={{fontSize: 10, color: 'red', paddingHorizontal: 25}}>
+                  {errors.password}
+                </Text>
+              ) : (
+                <Text
+                  style={{fontSize: 10, color: 'red', paddingHorizontal: 25}}>
+                  &nbsp;
+                </Text>
+              )}
+              <Input
+                style={
+                  errors.confirmPassword && touched.confirmPassword
+                    ? [styles.textInputError, styles.input]
+                    : styles.input
+                }
+                size="large"
+                placeholder="Enter Your Password"
+                value={values.confirmPassword}
+                accessoryRight={
+                  <HandleConfirmPasswordIcon
+                    error={errors.confirmPassword}
+                    touched={touched.confirmPassword}
+                  />
+                }
+                secureTextEntry={confirmPasswordEntryIcon}
+                onChangeText={handleChange('confirmPassword')}
+              />
+              {errors.confirmPassword ? (
+                <Text
+                  style={{fontSize: 10, color: 'red', paddingHorizontal: 25}}>
+                  {errors.confirmPassword}
+                </Text>
+              ) : (
+                <Text
+                  style={{fontSize: 10, color: 'red', paddingHorizontal: 25}}>
+                  &nbsp;
+                </Text>
+              )}
+
+              <View>
+                <View style={styles.checkboxContainer}>
+                  <CheckBox
+                    checked={values.terms}
+                    onChange={nextValue => setFieldValue('terms', nextValue)}
+                    style={errors.terms ? {color: 'red'} : styles.checkbox}
+                    status="primary">
+                    <Text style={{fontSize: 3}}>
+                      I agree to Terms and Conditions
+                    </Text>
+                  </CheckBox>
+                </View>
+                {errors.terms && <Text>{errors.terms}</Text>}
+              </View>
+            </View>
+            <TouchableOpacity
+              style={styles.buttonContainer}
+              onPress={handleSubmit}>
+              <Text style={styles.button}>Register</Text>
+            </TouchableOpacity>
+          </>
+        )}
+      </Formik>
       <View
         style={[
           styles.checkbox,
           styles.checkboxContainer,
-          {flexDirection: 'row'},
+          {flexDirection: 'row', marginTop: 15},
         ]}>
         <Text category="c1">Already Have an account? </Text>
         <TouchableOpacity>
@@ -112,14 +211,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderRadius: 20,
   },
-  button: {
-    marginTop: 10,
-    backgroundColor: '#252945',
-    color: '#dfe3fa',
-    borderRadius: 20,
-    padding: 10,
-    borderColor: 'transparent',
-  },
+
   checkbox: {
     paddingHorizontal: 20,
     fontSize: 5,
@@ -130,6 +222,22 @@ const styles = StyleSheet.create({
   checkboxContainer: {
     marginTop: 10,
     flexDirection: 'row',
+  },
+  buttonContainer: {
+    marginTop: 15,
+    backgroundColor: '#252945',
+    paddingVertical: 5,
+    borderRadius: 5,
+    paddingHorizontal: 12,
+  },
+  button: {
+    color: '#dfe3fa',
+    borderRadius: 20,
+    padding: 10,
+    borderColor: 'transparent',
+  },
+  textInputError: {
+    borderColor: 'red',
   },
 });
 

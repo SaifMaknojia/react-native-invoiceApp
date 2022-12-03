@@ -11,24 +11,25 @@ Please follow the setup for installation below. https://reactnative.dev/docs/env
 
 install homebrew from here - https://brew.sh/
 
-  1. For ios 
-     brew install node
-     brew install watchman
+1. For ios
+   brew install node;
+   brew install watchman;
 
-  2. For android
-     brew install node
-     brew install watchman
+2. For android
+   brew install node;
+   brew install watchman;
 
 Step 2.
 Clone or Fork the project as per your choice. Forking is perfect here as you have access to the project in your local branch.
 
 Step 3.
-  1. run npm install inside the invoice folder. 
-  2. cd ios and pod install.
-  3. Make sure you have neccesary dependencies for react-native installed.
+
+1. run npm install inside the invoice folder.
+2. cd ios and pod install.
+3. Make sure you have neccesary dependencies for react-native installed.
 
 ## Server
 
 You will need to create your own .env file to make the backend work. Read ".env.example" in server folder to see what keys you will need to run backend without any problem
 
-I have used Node and Express for server and MongoDB atlas for database. 
+I have used Node and Express for server and MongoDB atlas for database.
