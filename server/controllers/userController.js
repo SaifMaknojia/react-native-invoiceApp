@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 
 exports.userRegistration = async (req, res) => {
   const user = req.body;
-  console.log(req.body);
+
   const takenEmail = await User.findOne({ email: user.email });
 
   if (takenEmail) {
@@ -25,9 +25,14 @@ exports.userRegistration = async (req, res) => {
 
 exports.userLogin = (req, res) => {
   const userLoginIn = req.body;
-  User.findOne({ email: userLoginIn.email.toLowerCase() }).then((dbUser) => {
+  /*   User.findOne({
+    firstName: userLoginIn.firstName,
+    lastName: userLoginIn.lastName,
+  }); */
+  User.findOne({
+    email: userLoginIn.email.toLowerCase(),
+  }).then((dbUser) => {
     //checking if user is in database or not
-    console.log(userLoginIn.email, userLoginIn.password);
     if (!dbUser) {
       return res.json({
         message: "Invalid Email or Password",
@@ -48,6 +53,9 @@ exports.userLogin = (req, res) => {
             return res.json({
               message: "Success",
               token: token,
+              firstName: dbUser.firstName,
+              lastName: dbUser.lastName,
+              email: dbUser.email,
             });
           }
         );

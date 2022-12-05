@@ -3,6 +3,7 @@ const express = require("express");
 const morgan = require("morgan");
 const app = express();
 const bodyParser = require("body-parser");
+const cors = require("cors");
 
 //coming from codebase
 const testRouter = require("./routes/testRoutes");
@@ -22,6 +23,8 @@ app.use(function (req, res, next) {
   );
   next();
 });
+
+app.use(cors());
 
 app.use("/", testRouter);
 

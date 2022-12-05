@@ -11,6 +11,7 @@ import {Formik} from 'formik';
 import {RegisterValidationSchema} from '../components/ValidationSchema';
 import CustomFormInput from '../components/CustomFormLoginInput';
 import CustomFormLoginCheckbox from '../components/CustomFormLoginCheckbox';
+import axios from 'axios';
 
 const {height} = Dimensions.get('window');
 
@@ -69,6 +70,23 @@ const RegisterScreen = () => {
     agreedTerms: false,
   };
 
+  const handleFormikSubmit = value => {
+    axios
+      .post(
+        'http://10.0.0.76:8000/api/v1/users/register',
+        {
+          email: value.email,
+          password: value.password,
+          firstName: value.firstName,
+          lastName: value.lastName,
+          agreedTerms: value.agreedTerms,
+        },
+        /*     {'Content-Type': 'multipart/form-data'}, */
+      )
+      .then(res => console.log(res.data))
+      .catch(err => console.log(err));
+  };
+
   return (
     <View style={styles.container}>
       <View>
@@ -81,7 +99,7 @@ const RegisterScreen = () => {
         validateOnChange={false}
         validateOnBlur={false}
         initialValues={initialValues}
-        onSubmit={values => console.log(values)}>
+        onSubmit={values => handleFormikSubmit(values)}>
         {({
           handleChange,
           handleSubmit,
@@ -181,6 +199,7 @@ const RegisterScreen = () => {
                 checked={values.agreedTerms}
                 onChange={nextValue => setFieldValue('agreedTerms', nextValue)}
                 status={errors.agreedTerms ? 'danger' : 'primary'}
+                text="I agree to terms and condition"
               />
             </View>
             <TouchableOpacity

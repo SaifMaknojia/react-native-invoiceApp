@@ -6,9 +6,12 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
 } from 'react-native';
-import {Text, Input, CheckBox, Icon} from '@ui-kitten/components';
+import {Text, Icon} from '@ui-kitten/components';
 import {Formik} from 'formik';
 import {SignInValidationSchema} from '../components/ValidationSchema';
+import CustomFormInput from '../components/CustomFormLoginInput';
+import CustomFormLoginCheckbox from '../components/CustomFormLoginCheckbox';
+import axios from 'axios';
 
 const {height} = Dimensions.get('window');
 
@@ -35,8 +38,53 @@ const SignInScreen = () => {
     );
   };
 
+  const ErrorText = ({error}) => {
+    return <Text style={styles.errorStyle}>{error}</Text>;
+  };
+
+  const EmptyText = () => {
+    return (
+      <Text
+        style={{
+          fontSize: 10,
+          color: 'red',
+          paddingHorizontal: 25,
+          marginVertical: 5,
+        }}>
+        &nbsp;
+      </Text>
+    );
+  };
+
+  /* const handleFormikSubmit = value => {
+    fetch('http://localhost:8000/api/v1/users/login', {
+      method: 'POST',
+      body: JSON.stringify({
+        email: value.email,
+        password: value.password,
+      }),
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8',
+      },
+    })
+      .then(res => res.json())
+      .then(res => console.log(res))
+      .catch(err => console.log(err));
+  }; */
+
+  console.log('checking for consoles');
   const handleFormikSubmit = value => {
-    console.log(value);
+    axios
+      .post(
+        'http://10.0.0.76:8000/api/v1/users/login',
+        {
+          email: value.email,
+          password: value.password,
+        },
+        {'Content-Type': 'multipart/form-data'},
+      )
+      .then(res => console.log(res.data))
+      .catch(err => console.log(err));
   };
 
   return (
@@ -48,78 +96,56 @@ const SignInScreen = () => {
       </View>
       <Formik
         validationSchema={SignInValidationSchema}
-        // validateOnChange={false}
+        validateOnChange={false}
         validateOnBlur={true}
         initialValues={{email: '', password: ''}}
         onSubmit={values => handleFormikSubmit(values)}>
-        {({handleChange, handleSubmit, values, errors}) => (
+        {({handleChange, handleSubmit, values, errors, touched}) => (
           <>
             <View style={{marginTop: 10, paddingHorizontal: 20}}>
-              <Input
-                style={
-                  errors.email
-                    ? [styles.textInputError, styles.input]
-                    : styles.input
-                }
-                placeholderTextColor={errors.email ? 'red' : 'gray'}
+              <CustomFormInput
+                placeholder="Enter Your Email Name"
                 onChangeText={handleChange('email')}
-                size="large"
-                placeholder="Enter Your Email"
                 value={values.email.toLowerCase()}
+                errors={errors.email}
+                touched={touched.email}
                 accessoryRight={
                   <Icon
-                    fill={errors.email ? 'red' : 'grey'}
+                    fill={errors.email && touched.email ? 'red' : 'grey'}
                     name="email-outline"
                   />
                 }
               />
               {errors.email ? (
-                <Text
-                  style={{fontSize: 10, color: 'red', paddingHorizontal: 25}}>
-                  {errors.email}
-                </Text>
+                <ErrorText error={errors.email} />
               ) : (
-                <Text>&nbsp;</Text>
+                <EmptyText />
               )}
-              <Input
-                style={
-                  errors.password
-                    ? [styles.textInputError, styles.input]
-                    : styles.input
-                }
-                size="large"
+              <CustomFormInput
                 placeholder="Enter Your Password"
-                placeholderTextColor={errors.password ? 'red' : 'gray'}
                 onChangeText={handleChange('password')}
                 value={values.password}
-                accessoryRight={<RenderIcon error={errors.password} />}
+                errors={errors.password}
+                touched={touched.password}
                 secureTextEntry={secureTextEntry}
+                accessoryRight={RenderIcon}
               />
               {errors.password ? (
-                <Text
-                  style={{fontSize: 10, color: 'red', paddingHorizontal: 25}}>
-                  {errors.password}
-                </Text>
+                <ErrorText error={errors.password} />
               ) : (
-                <Text
-                  style={{fontSize: 10, color: 'red', paddingHorizontal: 25}}>
-                  &nbsp;
-                </Text>
+                <EmptyText />
               )}
-              <View style={styles.checkboxContainer}>
-                <CheckBox
+              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <CustomFormLoginCheckbox
                   checked={isAgreed}
                   onChange={handleCheckbox}
-                  style={styles.checkbox}
-                  status="primary">
-                  <Text style={{fontSize: 3}}> Remember Me</Text>
-                </CheckBox>
-                <TouchableOpacity>
-                  <Text
-                    // onPress={handleSubmit}
-                    style={styles.textColor}
-                    category="c1">
-                    Forgot Your Password
+                  status="primary"
+                  text="Remember Me"
+                />
+                <TouchableOpacity
+                  style={{alignSelf: 'flex-end', marginBottom: 4}}>
+                  <Text style={styles.textColor} category="c1">
+                    Forgot Your Password?
                   </Text>
                 </TouchableOpacity>
               </View>
@@ -133,12 +159,7 @@ const SignInScreen = () => {
           </>
         )}
       </Formik>
-      <View
-        style={[
-          styles.checkbox,
-          styles.checkboxContainer,
-          {flexDirection: 'row'},
-        ]}>
+      <View style={styles.footer}>
         <Text category="c1">Don't Have an account? </Text>
         <TouchableOpacity
           onPress={() => console.log('lets go to register Screen')}>
@@ -189,6 +210,20 @@ const styles = StyleSheet.create({
   checkboxContainer: {
     marginTop: 10,
     flexDirection: 'row',
+  },
+  footer: {
+    flexDirection: 'row',
+    marginTop: 15,
+    marginTop: 10,
+    flexDirection: 'row',
+    paddingHorizontal: 20,
+    fontSize: 5,
+  },
+  errorStyle: {
+    fontSize: 10,
+    color: 'red',
+    paddingHorizontal: 25,
+    marginVertical: 3,
   },
 });
 

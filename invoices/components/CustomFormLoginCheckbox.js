@@ -2,7 +2,7 @@ import {View, StyleSheet} from 'react-native';
 import {Text, CheckBox, Icon} from '@ui-kitten/components';
 import React from 'react';
 
-const CustomFormLoginCheckbox = ({onChange, checked, status}) => {
+const CustomFormLoginCheckbox = ({onChange, checked, status, text}) => {
   return (
     <View style={styles.checkboxContainer}>
       <CheckBox
@@ -10,7 +10,7 @@ const CustomFormLoginCheckbox = ({onChange, checked, status}) => {
         onChange={onChange}
         style={styles.checkbox}
         status={status}>
-        <Text>I agree to Terms and Conditions</Text>
+        <Text>{text}</Text>
       </CheckBox>
     </View>
   );

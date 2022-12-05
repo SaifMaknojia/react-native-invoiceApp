@@ -12,7 +12,7 @@ const App = () => {
       <NavigationContainer>
         <IconRegistry icons={EvaIconsPack} />
         <ApplicationProvider {...eva} theme={eva.light}>
-          <RegisterScreen />
+          {/* <RegisterScreen /> */}
           <SignInScreen />
         </ApplicationProvider>
       </NavigationContainer>
