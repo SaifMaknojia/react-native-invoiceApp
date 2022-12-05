@@ -26,5 +26,7 @@ export const RegisterValidationSchema = yup.object().shape({
     .string()
     .oneOf([yup.ref('password'), null], 'Passwords must match')
     .required('Need to match password criteria'),
-  terms: yup.boolean().oneOf([true], 'You need to agree terms and conditions'),
+  agreedTerms: yup
+    .boolean()
+    .oneOf([true], 'You need to agree terms and conditions'),
 });

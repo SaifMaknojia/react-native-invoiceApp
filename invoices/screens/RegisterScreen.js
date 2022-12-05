@@ -15,7 +15,7 @@ import axios from 'axios';
 
 const {height} = Dimensions.get('window');
 
-const RegisterScreen = () => {
+const RegisterScreen = ({navigation}) => {
   const [passwordEntryIcon, setPasswordEntryIcon] = useState(true);
   const [confirmPasswordEntryIcon, setConfirmPasswordEntryIcon] =
     useState(true);
@@ -34,31 +34,11 @@ const RegisterScreen = () => {
   };
 
   const ErrorText = ({error}) => {
-    return (
-      <Text
-        style={{
-          fontSize: 10,
-          color: 'red',
-          paddingHorizontal: 25,
-          marginVertical: 3,
-        }}>
-        {error}
-      </Text>
-    );
+    return <Text style={styles.errorText}>{error}</Text>;
   };
 
   const EmptyText = () => {
-    return (
-      <Text
-        style={{
-          fontSize: 10,
-          color: 'red',
-          paddingHorizontal: 25,
-          marginVertical: 5,
-        }}>
-        &nbsp;
-      </Text>
-    );
+    return <Text style={styles.emptyText}>&nbsp;</Text>;
   };
 
   const initialValues = {
@@ -208,7 +188,7 @@ const RegisterScreen = () => {
       </Formik>
       <View style={styles.footer}>
         <Text category="c1">Already Have an account? </Text>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('Login')}>
           <Text style={styles.textColor} category="c1">
             Sign In
           </Text>
@@ -249,6 +229,17 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingHorizontal: 20,
     fontSize: 5,
+  },
+  errorText: {
+    fontSize: 10,
+    color: 'red',
+    paddingHorizontal: 25,
+    marginVertical: 5,
+  },
+  emptyText: {
+    fontSize: 10,
+    paddingHorizontal: 25,
+    marginVertical: 5,
   },
 });
 

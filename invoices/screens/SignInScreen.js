@@ -15,7 +15,8 @@ import axios from 'axios';
 
 const {height} = Dimensions.get('window');
 
-const SignInScreen = () => {
+const SignInScreen = ({navigation}) => {
+  // const navigation = useNavigation();
   const [secureTextEntry, setSecureTextEntry] = React.useState(true);
   const [isAgreed, setIsAgreed] = useState(false);
   const handleCheckbox = () => {
@@ -43,17 +44,7 @@ const SignInScreen = () => {
   };
 
   const EmptyText = () => {
-    return (
-      <Text
-        style={{
-          fontSize: 10,
-          color: 'red',
-          paddingHorizontal: 25,
-          marginVertical: 5,
-        }}>
-        &nbsp;
-      </Text>
-    );
+    return <Text style={styles.emptyText}>&nbsp;</Text>;
   };
 
   const handleFormikSubmit = value => {
@@ -81,40 +72,49 @@ const SignInScreen = () => {
         onSubmit={values => handleFormikSubmit(values)}>
         {({handleChange, handleSubmit, values, errors, touched}) => (
           <>
-            <View style={{marginTop: 10, paddingHorizontal: 20}}>
-              <CustomFormInput
-                placeholder="Enter Your Email Name"
-                onChangeText={handleChange('email')}
-                value={values.email.toLowerCase()}
-                errors={errors.email}
-                touched={touched.email}
-                accessoryRight={
-                  <Icon
-                    fill={errors.email && touched.email ? 'red' : 'grey'}
-                    name="email-outline"
-                  />
-                }
-              />
-              {errors.email ? (
-                <ErrorText error={errors.email} />
-              ) : (
-                <EmptyText />
-              )}
-              <CustomFormInput
-                placeholder="Enter Your Password"
-                onChangeText={handleChange('password')}
-                value={values.password}
-                errors={errors.password}
-                touched={touched.password}
-                secureTextEntry={secureTextEntry}
-                accessoryRight={RenderIcon}
-              />
-              {errors.password ? (
-                <ErrorText error={errors.password} />
-              ) : (
-                <EmptyText />
-              )}
-              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <View style={{marginTop: 10}}>
+              <>
+                <CustomFormInput
+                  placeholder="Enter Your Email Name"
+                  onChangeText={handleChange('email')}
+                  value={values.email.toLowerCase()}
+                  errors={errors.email}
+                  touched={touched.email}
+                  accessoryRight={
+                    <Icon
+                      fill={errors.email && touched.email ? 'red' : 'grey'}
+                      name="email-outline"
+                    />
+                  }
+                />
+                {errors.email ? (
+                  <ErrorText error={errors.email} />
+                ) : (
+                  <EmptyText />
+                )}
+              </>
+              <>
+                <CustomFormInput
+                  placeholder="Enter Your Password"
+                  onChangeText={handleChange('password')}
+                  value={values.password}
+                  errors={errors.password}
+                  touched={touched.password}
+                  secureTextEntry={secureTextEntry}
+                  accessoryRight={<RenderIcon error={errors.password} />}
+                />
+                {errors.password ? (
+                  <ErrorText error={errors.password} />
+                ) : (
+                  <EmptyText />
+                )}
+              </>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  marginLeft: -10,
+                }}>
                 <CustomFormLoginCheckbox
                   checked={isAgreed}
                   onChange={handleCheckbox}
@@ -141,7 +141,7 @@ const SignInScreen = () => {
       <View style={styles.footer}>
         <Text category="c1">Don't Have an account? </Text>
         <TouchableOpacity
-          onPress={() => console.log('lets go to register Screen')}>
+          onPress={() => navigation.navigate('Register', {headerShown: false})}>
           <Text style={styles.textColor} category="c1">
             Register
           </Text>
@@ -159,10 +159,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   input: {
-    width: '80%',
+    width: '100%',
     paddingVertical: 5,
     borderRadius: 20,
     fill: 'black',
+    borderWidth: 1,
   },
   buttonContainer: {
     marginTop: 10,
@@ -180,16 +181,11 @@ const styles = StyleSheet.create({
     padding: 10,
     borderColor: 'transparent',
   },
-  checkbox: {
-    fontSize: 5,
-  },
+
   textColor: {
     color: '#7e88c3',
   },
-  checkboxContainer: {
-    marginTop: 10,
-    flexDirection: 'row',
-  },
+
   footer: {
     flexDirection: 'row',
     marginTop: 15,
@@ -202,7 +198,12 @@ const styles = StyleSheet.create({
     fontSize: 10,
     color: 'red',
     paddingHorizontal: 25,
-    marginVertical: 3,
+    marginVertical: 5,
+  },
+  emptyText: {
+    paddingHorizontal: 25,
+    fontSize: 10,
+    marginVertical: 5,
   },
 });
 

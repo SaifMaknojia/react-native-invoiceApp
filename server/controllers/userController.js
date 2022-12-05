@@ -25,10 +25,7 @@ exports.userRegistration = async (req, res) => {
 
 exports.userLogin = (req, res) => {
   const userLoginIn = req.body;
-  /*   User.findOne({
-    firstName: userLoginIn.firstName,
-    lastName: userLoginIn.lastName,
-  }); */
+
   User.findOne({
     email: userLoginIn.email.toLowerCase(),
   }).then((dbUser) => {
