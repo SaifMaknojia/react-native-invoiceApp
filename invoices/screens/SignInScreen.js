@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import {Text, Input, CheckBox, Icon} from '@ui-kitten/components';
 import {Formik} from 'formik';
-import {SignInValidationSchema} from '../components/Validations';
+import {SignInValidationSchema} from '../components/ValidationSchema';
 
 const {height} = Dimensions.get('window');
 
@@ -54,7 +54,7 @@ const SignInScreen = () => {
         onSubmit={values => handleFormikSubmit(values)}>
         {({handleChange, handleSubmit, values, errors}) => (
           <>
-            <View style={{marginTop: 10}}>
+            <View style={{marginTop: 10, paddingHorizontal: 20}}>
               <Input
                 style={
                   errors.email
@@ -79,10 +79,7 @@ const SignInScreen = () => {
                   {errors.email}
                 </Text>
               ) : (
-                <Text
-                  style={{fontSize: 10, color: 'red', paddingHorizontal: 25}}>
-                  &nbsp;
-                </Text>
+                <Text>&nbsp;</Text>
               )}
               <Input
                 style={
@@ -163,7 +160,6 @@ const styles = StyleSheet.create({
   },
   input: {
     width: '80%',
-    paddingHorizontal: 20,
     paddingVertical: 5,
     borderRadius: 20,
     fill: 'black',
@@ -185,7 +181,6 @@ const styles = StyleSheet.create({
     borderColor: 'transparent',
   },
   checkbox: {
-    paddingHorizontal: 20,
     fontSize: 5,
   },
   textColor: {

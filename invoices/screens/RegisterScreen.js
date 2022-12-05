@@ -6,9 +6,11 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
 } from 'react-native';
-import {Text, Input, Button, CheckBox, Icon} from '@ui-kitten/components';
+import {Text, Icon} from '@ui-kitten/components';
 import {Formik} from 'formik';
-import {RegisterValidationSchema} from '../components/Validations';
+import {RegisterValidationSchema} from '../components/ValidationSchema';
+import CustomFormInput from '../components/CustomFormLoginInput';
+import CustomFormLoginCheckbox from '../components/CustomFormLoginCheckbox';
 
 const {height} = Dimensions.get('window');
 
@@ -18,29 +20,53 @@ const RegisterScreen = () => {
     useState(true);
 
   const HandlePasswordIcon = props => {
+    const {setStateProps, stateProps} = props;
     return (
-      <TouchableWithoutFeedback
-        onPress={() => setPasswordEntryIcon(!passwordEntryIcon)}>
+      <TouchableWithoutFeedback onPress={() => setStateProps(!stateProps)}>
         <Icon
           fill={props.error && props.touched ? 'red' : 'grey'}
           {...props}
-          name={passwordEntryIcon ? 'eye-off' : 'eye'}
+          name={stateProps ? 'eye-off' : 'eye'}
         />
       </TouchableWithoutFeedback>
     );
   };
 
-  const HandleConfirmPasswordIcon = props => {
+  const ErrorText = ({error}) => {
     return (
-      <TouchableWithoutFeedback
-        onPress={() => setConfirmPasswordEntryIcon(!confirmPasswordEntryIcon)}>
-        <Icon
-          fill={props.error && props.touched ? 'red' : 'grey'}
-          {...props}
-          name={confirmPasswordEntryIcon ? 'eye-off' : 'eye'}
-        />
-      </TouchableWithoutFeedback>
+      <Text
+        style={{
+          fontSize: 10,
+          color: 'red',
+          paddingHorizontal: 25,
+          marginVertical: 3,
+        }}>
+        {error}
+      </Text>
     );
+  };
+
+  const EmptyText = () => {
+    return (
+      <Text
+        style={{
+          fontSize: 10,
+          color: 'red',
+          paddingHorizontal: 25,
+          marginVertical: 5,
+        }}>
+        &nbsp;
+      </Text>
+    );
+  };
+
+  const initialValues = {
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+    agreedTerms: false,
   };
 
   return (
@@ -54,12 +80,7 @@ const RegisterScreen = () => {
         validationSchema={RegisterValidationSchema}
         validateOnChange={false}
         validateOnBlur={false}
-        initialValues={{
-          email: '',
-          password: '',
-          confirmPassword: '',
-          terms: false,
-        }}
+        initialValues={initialValues}
         onSubmit={values => console.log(values)}>
         {({
           handleChange,
@@ -71,16 +92,36 @@ const RegisterScreen = () => {
         }) => (
           <>
             <View style={{marginTop: 10}}>
-              <Input
-                style={
-                  errors.email && touched.email
-                    ? [styles.textInputError, styles.input]
-                    : styles.input
-                }
-                size="large"
-                placeholder="Enter Your Email"
-                value={values.email.toLowerCase()}
+              <CustomFormInput
+                placeholder="First Name"
+                onChangeText={handleChange('firstName')}
+                value={values.firstName}
+                errors={errors.firstName}
+                touched={touched.firstName}
+              />
+              {errors.firstName && touched.firstName ? (
+                <ErrorText error={errors.firstName} />
+              ) : (
+                <EmptyText />
+              )}
+              <CustomFormInput
+                placeholder="Last Name"
+                onChangeText={handleChange('lastName')}
+                value={values.lastName}
+                errors={errors.lastName}
+                touched={touched.lastName}
+              />
+              {errors.lastName && touched.lastName ? (
+                <ErrorText error={errors.lastName} />
+              ) : (
+                <EmptyText />
+              )}
+              <CustomFormInput
+                placeholder="Enter Your Email Name"
                 onChangeText={handleChange('email')}
+                value={values.email.toLowerCase()}
+                errors={errors.email}
+                touched={touched.email}
                 accessoryRight={
                   <Icon
                     fill={errors.email && touched.email ? 'red' : 'grey'}
@@ -89,89 +130,58 @@ const RegisterScreen = () => {
                 }
               />
               {errors.email && touched.email ? (
-                <Text
-                  style={{fontSize: 10, color: 'red', paddingHorizontal: 25}}>
-                  {errors.email}
-                </Text>
+                <ErrorText error={errors.email} />
               ) : (
-                <Text
-                  style={{fontSize: 10, color: 'red', paddingHorizontal: 25}}>
-                  &nbsp;
-                </Text>
+                <EmptyText />
               )}
-              <Input
-                style={
-                  errors.password && touched.password
-                    ? [styles.textInputError, styles.input]
-                    : styles.input
-                }
-                size="large"
+              <CustomFormInput
+                placeholder="Enter Your Password"
                 onChangeText={handleChange('password')}
                 value={values.password}
-                placeholder="Enter Your Password"
+                errors={errors.password}
+                touched={touched.password}
+                secureTextEntry={passwordEntryIcon}
                 accessoryRight={
                   <HandlePasswordIcon
                     error={errors.password}
                     touched={touched.password}
+                    stateProps={passwordEntryIcon}
+                    setStateProps={setPasswordEntryIcon}
                   />
                 }
-                secureTextEntry={passwordEntryIcon}
               />
               {errors.password && touched.password ? (
-                <Text
-                  style={{fontSize: 10, color: 'red', paddingHorizontal: 25}}>
-                  {errors.password}
-                </Text>
+                <ErrorText error={errors.password} />
               ) : (
-                <Text
-                  style={{fontSize: 10, color: 'red', paddingHorizontal: 25}}>
-                  &nbsp;
-                </Text>
+                <EmptyText />
               )}
-              <Input
-                style={
-                  errors.confirmPassword && touched.confirmPassword
-                    ? [styles.textInputError, styles.input]
-                    : styles.input
-                }
-                size="large"
-                placeholder="Enter Your Password"
+              <CustomFormInput
+                placeholder="Confirm your Password"
+                onChangeText={handleChange('confirmPassword')}
                 value={values.confirmPassword}
+                errors={errors.confirmPassword}
+                touched={touched.confirmPassword}
+                secureTextEntry={confirmPasswordEntryIcon}
                 accessoryRight={
-                  <HandleConfirmPasswordIcon
+                  <HandlePasswordIcon
                     error={errors.confirmPassword}
                     touched={touched.confirmPassword}
+                    stateProps={confirmPasswordEntryIcon}
+                    setStateProps={setConfirmPasswordEntryIcon}
                   />
                 }
-                secureTextEntry={confirmPasswordEntryIcon}
-                onChangeText={handleChange('confirmPassword')}
               />
               {errors.confirmPassword ? (
-                <Text
-                  style={{fontSize: 10, color: 'red', paddingHorizontal: 25}}>
-                  {errors.confirmPassword}
-                </Text>
+                <ErrorText error={errors.confirmPassword} />
               ) : (
-                <Text
-                  style={{fontSize: 10, color: 'red', paddingHorizontal: 25}}>
-                  &nbsp;
-                </Text>
+                <EmptyText />
               )}
 
-              <View>
-                <View style={styles.checkboxContainer}>
-                  <CheckBox
-                    checked={values.terms}
-                    onChange={nextValue => setFieldValue('terms', nextValue)}
-                    style={errors.terms ? {color: 'red'} : styles.checkbox}
-                    status="primary">
-                    <Text style={{fontSize: 3}}>
-                      I agree to Terms and Conditions
-                    </Text>
-                  </CheckBox>
-                </View>
-                {errors.terms && <Text>{errors.terms}</Text>}
-              </View>
+              <CustomFormLoginCheckbox
+                checked={values.agreedTerms}
+                onChange={nextValue => setFieldValue('agreedTerms', nextValue)}
+                status={errors.agreedTerms ? 'danger' : 'primary'}
+              />
             </View>
             <TouchableOpacity
               style={styles.buttonContainer}
@@ -181,12 +191,7 @@ const RegisterScreen = () => {
           </>
         )}
       </Formik>
-      <View
-        style={[
-          styles.checkbox,
-          styles.checkboxContainer,
-          {flexDirection: 'row', marginTop: 15},
-        ]}>
+      <View style={styles.footer}>
         <Text category="c1">Already Have an account? </Text>
         <TouchableOpacity>
           <Text style={styles.textColor} category="c1">
@@ -205,23 +210,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  input: {
-    width: '80%',
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    borderRadius: 20,
-  },
 
-  checkbox: {
-    paddingHorizontal: 20,
-    fontSize: 5,
-  },
   textColor: {
     color: '#7e88c3',
-  },
-  checkboxContainer: {
-    marginTop: 10,
-    flexDirection: 'row',
   },
   buttonContainer: {
     marginTop: 15,
@@ -236,8 +227,13 @@ const styles = StyleSheet.create({
     padding: 10,
     borderColor: 'transparent',
   },
-  textInputError: {
-    borderColor: 'red',
+  footer: {
+    flexDirection: 'row',
+    marginTop: 15,
+    marginTop: 10,
+    flexDirection: 'row',
+    paddingHorizontal: 20,
+    fontSize: 5,
   },
 });
 

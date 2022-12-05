@@ -12,6 +12,8 @@ export const SignInValidationSchema = yup.object().shape({
 });
 
 export const RegisterValidationSchema = yup.object().shape({
+  firstName: yup.string().required("First name can't be empty"),
+  lastName: yup.string().required("Last name can't be empty"),
   email: yup
     .string()
     .email('Please enter valid email')
@@ -24,5 +26,5 @@ export const RegisterValidationSchema = yup.object().shape({
     .string()
     .oneOf([yup.ref('password'), null], 'Passwords must match')
     .required('Need to match password criteria'),
-  terms: yup.boolean().oneOf([true], 'You need to agree terms and condition'),
+  terms: yup.boolean().oneOf([true], 'You need to agree terms and conditions'),
 });
