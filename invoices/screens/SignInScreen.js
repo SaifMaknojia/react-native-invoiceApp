@@ -58,14 +58,10 @@ const SignInScreen = () => {
 
   const handleFormikSubmit = value => {
     axios
-      .post(
-        'http://10.0.0.76:8000/api/v1/users/login',
-        {
-          email: value.email,
-          password: value.password,
-        },
-        {'Content-Type': 'multipart/form-data'},
-      )
+      .post('http://10.0.0.76:8000/api/v1/users/login', {
+        email: value.email,
+        password: value.password,
+      })
       .then(res => console.log(res.data))
       .catch(err => console.log(err));
   };
