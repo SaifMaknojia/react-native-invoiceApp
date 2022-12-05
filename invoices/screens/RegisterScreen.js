@@ -72,17 +72,13 @@ const RegisterScreen = () => {
 
   const handleFormikSubmit = value => {
     axios
-      .post(
-        'http://10.0.0.76:8000/api/v1/users/register',
-        {
-          email: value.email,
-          password: value.password,
-          firstName: value.firstName,
-          lastName: value.lastName,
-          agreedTerms: value.agreedTerms,
-        },
-        /*     {'Content-Type': 'multipart/form-data'}, */
-      )
+      .post('http://10.0.0.76:8000/api/v1/users/register', {
+        email: value.email,
+        password: value.password,
+        firstName: value.firstName,
+        lastName: value.lastName,
+        agreedTerms: value.agreedTerms,
+      })
       .then(res => console.log(res.data))
       .catch(err => console.log(err));
   };

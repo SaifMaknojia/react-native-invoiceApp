@@ -56,23 +56,6 @@ const SignInScreen = () => {
     );
   };
 
-  /* const handleFormikSubmit = value => {
-    fetch('http://localhost:8000/api/v1/users/login', {
-      method: 'POST',
-      body: JSON.stringify({
-        email: value.email,
-        password: value.password,
-      }),
-      headers: {
-        'Content-type': 'application/json; charset=UTF-8',
-      },
-    })
-      .then(res => res.json())
-      .then(res => console.log(res))
-      .catch(err => console.log(err));
-  }; */
-
-  console.log('checking for consoles');
   const handleFormikSubmit = value => {
     axios
       .post(
