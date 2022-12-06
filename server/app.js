@@ -8,6 +8,7 @@ const cors = require("cors");
 //coming from codebase
 const testRouter = require("./routes/testRoutes");
 const userRouter = require("./routes/userRoutes");
+const invoiceRouter = require("./routes/invoiceRoutes");
 const verifyJwt = require("./middleware/verifyJWT");
 
 app.use(morgan("dev"));
@@ -29,6 +30,7 @@ app.use(cors());
 app.use("/", testRouter);
 
 app.use("/api/v1/users", userRouter);
+app.use("/api/v1/invoice", invoiceRouter);
 
 //just for understanding
 app.get("/getusername", verifyJwt, (req, res) => {

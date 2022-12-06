@@ -12,7 +12,8 @@ function verifyJwt(req, res, next) {
         });
       req.user = {};
       req.user.id = decoded.id;
-      req.user.username = decoded.username;
+      req.user.email = decoded.email;
+      req.user.firstName = decoded.firstName;
       next();
     });
   } else {

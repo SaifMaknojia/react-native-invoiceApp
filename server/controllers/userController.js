@@ -40,6 +40,7 @@ exports.userLogin = (req, res) => {
         const payload = {
           id: dbUser._id,
           email: dbUser.email,
+          firstName: dbUser.firstName,
         };
         jwt.sign(
           payload,
@@ -53,6 +54,7 @@ exports.userLogin = (req, res) => {
               firstName: dbUser.firstName,
               lastName: dbUser.lastName,
               email: dbUser.email,
+              _id: dbUser._id,
             });
           }
         );
