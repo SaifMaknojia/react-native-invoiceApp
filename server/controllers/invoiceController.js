@@ -2,7 +2,6 @@ const Invoices = require("../models/invoiceModel");
 const User = require("../models/user");
 
 exports.getAllUserInvoice = async (req, res) => {
-  console.log(req.user);
   try {
     const invoices = await Invoices.find({ userId: req.user.id });
     res.status(200).json({

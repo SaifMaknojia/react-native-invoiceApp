@@ -2,20 +2,31 @@ import React from 'react';
 import * as eva from '@eva-design/eva';
 import {EvaIconsPack} from '@ui-kitten/eva-icons';
 import {ApplicationProvider, IconRegistry} from '@ui-kitten/components';
-import SignInScreen from './screens/SignInScreen';
-import RegisterScreen from './screens/RegisterScreen';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import MyStack from './navigation';
+import axios from 'axios';
+import * as Keychain from 'react-native-keychain';
+import {Provider} from 'react-redux';
+import store from './redux/store';
 
-const Stack = createNativeStackNavigator();
+axios.interceptors.request.use(async config => {
+  const token = await Keychain.getGenericPassword();
+
+  config.headers['x-access-token'] = token.password;
+
+  return config;
+});
+
 const App = () => {
   return (
     <NavigationContainer>
-      <IconRegistry icons={EvaIconsPack} />
-      <ApplicationProvider {...eva} theme={eva.light}>
-        <MyStack />
-      </ApplicationProvider>
+      <Provider store={store}>
+        <IconRegistry icons={EvaIconsPack} />
+        <ApplicationProvider {...eva} theme={eva.light}>
+          <MyStack />
+        </ApplicationProvider>
+      </Provider>
     </NavigationContainer>
   );
 };

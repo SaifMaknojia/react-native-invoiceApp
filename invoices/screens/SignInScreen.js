@@ -12,11 +12,14 @@ import {SignInValidationSchema} from '../components/ValidationSchema';
 import CustomFormInput from '../components/CustomFormLoginInput';
 import CustomFormLoginCheckbox from '../components/CustomFormLoginCheckbox';
 import axios from 'axios';
+import * as Keychain from 'react-native-keychain';
 
 const {height} = Dimensions.get('window');
 
 const SignInScreen = ({navigation}) => {
   // const navigation = useNavigation();
+  const [loginData, setLoginData] = useState();
+  const [loginError, setLoginError] = useState(false);
   const [secureTextEntry, setSecureTextEntry] = React.useState(true);
   const [isAgreed, setIsAgreed] = useState(false);
   const handleCheckbox = () => {
@@ -46,15 +49,35 @@ const SignInScreen = ({navigation}) => {
   const EmptyText = () => {
     return <Text style={styles.emptyText}>&nbsp;</Text>;
   };
+  const handleFormikSubmit = async value => {
+    try {
+      const apiData = await axios.post(
+        'http://10.0.0.76:8000/api/v1/users/login',
+        {
+          email: value.email,
+          password: value.password,
+        },
+      );
 
-  const handleFormikSubmit = value => {
-    axios
-      .post('http://10.0.0.76:8000/api/v1/users/login', {
-        email: value.email,
-        password: value.password,
-      })
-      .then(res => console.log(res.data))
-      .catch(err => console.log(err));
+      const token = await apiData.data.token;
+
+      const data = await Keychain.setGenericPassword('username', token);
+
+      if (apiData.data.message === 'Success') {
+        await navigation.navigate('InvoiceHomeScreen', {token: 'xx'});
+        setLoginData(prev => {
+          return {
+            ...prev,
+            ...apiData.data,
+          };
+        });
+      } else {
+        setLoginError(true);
+      }
+    } catch (err) {
+      setLoginError(true);
+      console.error(err);
+    }
   };
 
   return (
@@ -87,7 +110,7 @@ const SignInScreen = ({navigation}) => {
                     />
                   }
                 />
-                {errors.email ? (
+                {errors.email || loginError ? (
                   <ErrorText error={errors.email} />
                 ) : (
                   <EmptyText />
@@ -103,7 +126,7 @@ const SignInScreen = ({navigation}) => {
                   secureTextEntry={secureTextEntry}
                   accessoryRight={<RenderIcon error={errors.password} />}
                 />
-                {errors.password ? (
+                {errors.password || loginError ? (
                   <ErrorText error={errors.password} />
                 ) : (
                   <EmptyText />
@@ -122,6 +145,7 @@ const SignInScreen = ({navigation}) => {
                   text="Remember Me"
                 />
                 <TouchableOpacity
+                  onPress={() => navigation.navigate('InvoiceHomeScreen')}
                   style={{alignSelf: 'flex-end', marginBottom: 4}}>
                   <Text style={styles.textColor} category="c1">
                     Forgot Your Password?

@@ -8,7 +8,7 @@ exports.userRegistration = async (req, res) => {
   const takenEmail = await User.findOne({ email: user.email });
 
   if (takenEmail) {
-    res.json({ message: "email is taken" });
+    res.status(401).json({ message: "email is taken" });
   } else {
     user.password = await bcrypt.hash(user.password, 10);
     const dbUser = new User({
@@ -19,7 +19,7 @@ exports.userRegistration = async (req, res) => {
       agreedTerms: user.agreedTerms,
     });
     dbUser.save();
-    res.json({ message: "Success" });
+    res.status(200).json({ message: "Success" });
   }
 };
 
@@ -31,7 +31,7 @@ exports.userLogin = (req, res) => {
   }).then((dbUser) => {
     //checking if user is in database or not
     if (!dbUser) {
-      return res.json({
+      return res.status(400).json({
         message: "Invalid Email or Password",
       });
     }
@@ -48,7 +48,7 @@ exports.userLogin = (req, res) => {
           { expiresIn: 86400 },
           (err, token) => {
             if (err) return res.json({ message: err });
-            return res.json({
+            return res.status(200).json({
               message: "Success",
               token: token,
               firstName: dbUser.firstName,
@@ -59,7 +59,7 @@ exports.userLogin = (req, res) => {
           }
         );
       } else {
-        return res.json({
+        return res.status(404).json({
           message: "Invalid UserName or Password",
         });
       }
