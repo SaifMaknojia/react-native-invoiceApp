@@ -8,7 +8,7 @@ const HomeScreenInvoiceCard = () => {
   console.log(invoices);
   return (
     <View style={{margin: 20}}>
-      {invoices.map(invoice => (
+      {invoices?.map(invoice => (
         <TouchableOpacity style={{borderColor: 'red'}}>
           <Card
             key={invoice._id}
