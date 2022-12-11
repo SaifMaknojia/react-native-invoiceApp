@@ -15,7 +15,6 @@ const HomeScreenInvoiceCard = ({navigation}) => {
               navigation.navigate('InvoiceDetailScreen', {id: invoice._id})
             }
             key={invoice._id}
-            //  activeOpacity={0.5}
             style={{
               height: 134,
               marginTop: 10,
