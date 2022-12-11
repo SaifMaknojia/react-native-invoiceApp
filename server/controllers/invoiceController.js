@@ -4,6 +4,7 @@ const User = require("../models/user");
 exports.getAllUserInvoice = async (req, res) => {
   try {
     const invoices = await Invoices.find({ userId: req.user.id });
+    console.log(invoices);
     res.status(200).json({
       status: "success",
       results: invoices.length,
@@ -20,10 +21,19 @@ exports.getAllUserInvoice = async (req, res) => {
 exports.getIndividualUserInvoice = async (req, res) => {
   try {
     const invoice = await Invoices.findById(req.params.id);
-    res.status(200).json({
-      status: "success",
-      invoice: invoice,
-    });
+    console.log(invoice);
+
+    if (invoice) {
+      res.status(200).json({
+        status: "success",
+        invoice: invoice,
+      });
+    } else {
+      res.status(404).json({
+        status: "Failed",
+        message: "Invoice not found",
+      });
+    }
   } catch (err) {
     res.status(404).json({
       status: "Failed",

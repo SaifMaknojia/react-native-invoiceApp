@@ -6,7 +6,8 @@ const verifyJwt = require("../middleware/verifyJWT");
 router
   .route("/")
   .get(verifyJwt, invoiceController.getAllUserInvoice)
-  .post(invoiceController.createInvoice);
-//router.route("/:id").get(invoiceController.userRegistration);
+  .post(verifyJwt, invoiceController.createInvoice);
+
+router.route("/:id").get(verifyJwt, invoiceController.getIndividualUserInvoice);
 
 module.exports = router;
