@@ -3,7 +3,7 @@ import {Card} from '@ui-kitten/components';
 import React from 'react';
 import {useSelector} from 'react-redux';
 
-const HomeScreenInvoiceCard = () => {
+const HomeScreenInvoiceCard = ({navigation}) => {
   const {invoices} = useSelector(state => state.allUserInvoices.invoice);
   console.log(invoices);
   return (
@@ -11,6 +11,7 @@ const HomeScreenInvoiceCard = () => {
       {invoices?.map(invoice => (
         <TouchableOpacity style={{borderColor: 'red'}}>
           <Card
+            onPress={() => navigation.navigate('InvoiceDetailScreen')}
             key={invoice._id}
             activeOpacity={0.5}
             style={{

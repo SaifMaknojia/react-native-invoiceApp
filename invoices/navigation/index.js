@@ -1,5 +1,6 @@
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {View} from 'react-native';
+import InvoiceDetailScreen from '../screens/InvoiceDetailScreen';
 import InvoiceHomeScreen from '../screens/InvoiceHomeScreen';
 import RegisterScreen from '../screens/RegisterScreen';
 import SignInScreen from '../screens/SignInScreen';
@@ -22,6 +23,11 @@ function MyStack() {
       <Stack.Screen
         name="InvoiceHomeScreen"
         component={InvoiceHomeScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="InvoiceDetailScreen"
+        component={InvoiceDetailScreen}
         options={{headerShown: false}}
       />
     </Stack.Navigator>
