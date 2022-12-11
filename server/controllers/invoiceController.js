@@ -21,7 +21,6 @@ exports.getAllUserInvoice = async (req, res) => {
 exports.getIndividualUserInvoice = async (req, res) => {
   try {
     const invoice = await Invoices.findById(req.params.id);
-    console.log(invoice);
 
     if (invoice) {
       res.status(200).json({
