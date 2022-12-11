@@ -5,15 +5,17 @@ import {useSelector} from 'react-redux';
 
 const HomeScreenInvoiceCard = ({navigation}) => {
   const {invoices} = useSelector(state => state.allUserInvoices.invoice);
-  console.log(invoices);
+
   return (
     <View style={{margin: 20}}>
       {invoices?.map(invoice => (
         <TouchableOpacity style={{borderColor: 'red'}}>
           <Card
-            onPress={() => navigation.navigate('InvoiceDetailScreen')}
+            onPress={() =>
+              navigation.navigate('InvoiceDetailScreen', {id: invoice._id})
+            }
             key={invoice._id}
-            activeOpacity={0.5}
+            //  activeOpacity={0.5}
             style={{
               height: 134,
               marginTop: 10,

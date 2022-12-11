@@ -5,9 +5,7 @@ import Header from '../components/Header';
 import * as Keychain from 'react-native-keychain';
 import HomeScreenNav from '../components/HomeScreenNav';
 import HomeScreenInvoiceCard from '../components/HomeScreenInvoiceCard';
-import {useDispatch, useSelector} from 'react-redux';
-
-import {Button} from '@ui-kitten/components';
+import {useDispatch} from 'react-redux';
 import {addInvoice} from '../redux/slice/InvoiceSlice';
 
 const InvoiceHomeScreen = props => {
