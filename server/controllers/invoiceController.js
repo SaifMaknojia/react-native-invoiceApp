@@ -63,7 +63,7 @@ exports.updateInvoice = async (req, res) => {
     res.status(200).json({
       status: "success",
       message: "patch request onRoute",
-      data: invoice,
+      invoice,
     });
   } catch (err) {
     res.status(400).json({
