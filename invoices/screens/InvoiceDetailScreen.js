@@ -1,9 +1,11 @@
-import {View, Text, SafeAreaView} from 'react-native';
+import {View, Text, SafeAreaView, ScrollView} from 'react-native';
 import React, {useEffect} from 'react';
 import axios from 'axios';
 import Header from '../components/Header';
 import GoBack from '../components/GoBack';
-import InvoiceDetailStatusCard from '../components/InvoiceDetailStatusCard';
+import InvoiceDetailStatusCard from '../components/invoiceDetail/InvoiceDetailStatusCard';
+import InvoiceDetailsMainCard from '../components/invoiceDetail/InvoiceDetailsMainCard';
+import InvoiceDetailButton from '../components/invoiceDetail/InvoiceDetailButton';
 
 const InvoiceDetailScreen = ({navigation, route}) => {
   useEffect(() => {
@@ -15,13 +17,17 @@ const InvoiceDetailScreen = ({navigation, route}) => {
 
   return (
     <>
-      <SafeAreaView style={{backgroundColor: '#fff'}}>
-        <Header />
-      </SafeAreaView>
-      <View style={{padding: 20}}>
-        <GoBack navigation={navigation} />
-        <InvoiceDetailStatusCard />
-      </View>
+      <ScrollView style={{marginBottom: 75}}>
+        <SafeAreaView style={{backgroundColor: '#fff'}}>
+          <Header />
+        </SafeAreaView>
+        <View style={{padding: 20, position: 'relative'}}>
+          <GoBack navigation={navigation} />
+          <InvoiceDetailStatusCard />
+          <InvoiceDetailsMainCard />
+        </View>
+      </ScrollView>
+      <InvoiceDetailButton />
     </>
   );
 };

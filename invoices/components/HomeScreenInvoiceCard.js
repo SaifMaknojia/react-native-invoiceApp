@@ -9,12 +9,11 @@ const HomeScreenInvoiceCard = ({navigation}) => {
   return (
     <View style={{margin: 20}}>
       {invoices?.map(invoice => (
-        <TouchableOpacity style={{borderColor: 'red'}}>
+        <TouchableOpacity key={invoice._id} style={{borderColor: 'red'}}>
           <Card
             onPress={() =>
               navigation.navigate('InvoiceDetailScreen', {id: invoice._id})
             }
-            key={invoice._id}
             style={{
               height: 134,
               marginTop: 10,
