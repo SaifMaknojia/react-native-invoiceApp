@@ -3,13 +3,13 @@ import React from 'react';
 import {color} from '../../utils/Colors';
 import {Text} from '@ui-kitten/components';
 
-const InvoiceDetailDate = () => {
+const InvoiceDetailDate = ({date}) => {
   //2 props Title and date
   return (
     <View style={{marginBottom: 20}}>
       <Text style={styles.fontColor}>Invoice Date</Text>
       <Text category="s1" style={styles.information}>
-        21 Aug 2021
+        {date}
       </Text>
     </View>
   );

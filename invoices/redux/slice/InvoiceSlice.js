@@ -13,6 +13,7 @@ export const invoiceSlice = createSlice({
   },
 });
 
+console.log(invoiceSlice);
 // this is for dispatch
 export const {addInvoice} = invoiceSlice.actions;
 

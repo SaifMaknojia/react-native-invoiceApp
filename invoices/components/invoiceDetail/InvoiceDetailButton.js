@@ -8,13 +8,13 @@ const InvoiceDetailButton = () => {
     <Card activeOpacity={0.0} style={styles.card}>
       <View style={styles.buttonContainer}>
         <TouchableOpacity>
-          <View style={styles.buttonDelete}>
-            <Text style={styles.textWhite}>Delete</Text>
+          <View style={styles.buttonEdit}>
+            <Text style={styles.textWhite}>Edit</Text>
           </View>
         </TouchableOpacity>
         <TouchableOpacity>
-          <View style={styles.buttonEdit}>
-            <Text style={styles.textWhite}>Edit</Text>
+          <View style={styles.buttonDelete}>
+            <Text style={styles.textWhite}>Delete</Text>
           </View>
         </TouchableOpacity>
         <TouchableOpacity>

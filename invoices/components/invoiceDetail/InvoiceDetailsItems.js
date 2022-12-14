@@ -2,31 +2,28 @@ import {View, StyleSheet} from 'react-native';
 import React from 'react';
 import {color} from '../../utils/Colors';
 import {Text} from '@ui-kitten/components';
+import {useSelector} from 'react-redux';
 
 const InvoiceDetailsItems = () => {
+  const {singleInvoice} = useSelector(state => state.individualInvoice);
+
   return (
     <View style={styles.container}>
-      <View style={styles.list}>
-        <View>
-          <Text style={styles.product} category="s1">
-            Banner Design
-          </Text>
-          <Text style={styles.fontColor}>1 x $200.00</Text>
+      {singleInvoice?.items?.map(item => (
+        <View style={styles.list}>
+          <View>
+            <Text style={styles.product} category="s1">
+              {item.name}
+            </Text>
+            <Text category="c2" style={styles.fontColor}>
+              {item.quantity} x ${parseInt(item.price).toFixed(2)}
+            </Text>
+          </View>
+          <View>
+            <Text>${parseInt(item.total).toFixed(2)}</Text>
+          </View>
         </View>
-        <View>
-          <Text>$200.00</Text>
-        </View>
-      </View>
-      {/* Delete this later */}
-      <View style={styles.list}>
-        <View>
-          <Text style={styles.product}>Banner Design</Text>
-          <Text style={styles.fontColor}>1 x $200.00</Text>
-        </View>
-        <View>
-          <Text>$200.00</Text>
-        </View>
-      </View>
+      ))}
     </View>
   );
 };

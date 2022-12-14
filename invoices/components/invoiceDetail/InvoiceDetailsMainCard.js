@@ -7,23 +7,31 @@ import InvoiceDetailBillTo from './InvoiceDetailBillTo';
 import InvoiceDetailTitle from './InvoiceDetailTitle';
 import InvoiceDetailsItems from './InvoiceDetailsItems';
 import InvoiceDetailGrandTotal from './InvoiceDetailGrandTotal';
+import {useSelector} from 'react-redux';
 
 const InvoiceDetailsMainCard = () => {
+  const {singleInvoice} = useSelector(state => state.individualInvoice);
   return (
     <Card style={{marginTop: 20, paddingBottom: 0}}>
       <InvoiceDetailTitle />
-      <InvoiceDetailAddress />
+      <InvoiceDetailAddress address={singleInvoice.senderAddress} />
       <View style={styles.wrapper}>
         <View>
-          <InvoiceDetailDate />
-          <InvoiceDetailDate />
+          <InvoiceDetailDate
+            date={singleInvoice?.paymentDue}
+            title="Invoice Date"
+          />
+          <InvoiceDetailDate
+            date={singleInvoice?.createdAt}
+            title="Payment Due"
+          />
         </View>
         <View>
           <InvoiceDetailBillTo />
-          <InvoiceDetailAddress />
+          <InvoiceDetailAddress address={singleInvoice.clientAddress} />
         </View>
       </View>
-      <InvoiceDetailDate />
+      <InvoiceDetailDate date={singleInvoice?.clientEmail} title="Sent To" />
       <InvoiceDetailsItems />
       <InvoiceDetailGrandTotal />
     </Card>
