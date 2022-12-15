@@ -4,6 +4,7 @@ import InvoiceDetailScreen from '../screens/InvoiceDetailScreen';
 import InvoiceHomeScreen from '../screens/InvoiceHomeScreen';
 import RegisterScreen from '../screens/RegisterScreen';
 import SignInScreen from '../screens/SignInScreen';
+import AddNewInvoiceScreen from '../screens/AddNewInvoiceScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -25,6 +26,14 @@ function MyStack() {
         component={InvoiceHomeScreen}
         options={{headerShown: false}}
       />
+
+      <Stack.Group screenOptions={{presentation: 'modal'}}>
+        <Stack.Screen
+          name="AddNewInvoiceScreen"
+          component={AddNewInvoiceScreen}
+          options={{headerShown: false}}
+        />
+      </Stack.Group>
       <Stack.Screen
         name="InvoiceDetailScreen"
         component={InvoiceDetailScreen}

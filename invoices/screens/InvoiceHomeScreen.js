@@ -38,7 +38,7 @@ const InvoiceHomeScreen = props => {
       <SafeAreaView style={styles.safeAreaView}>
         <Header />
       </SafeAreaView>
-      <HomeScreenNav />
+      <HomeScreenNav navigation={navigation} />
       <HomeScreenInvoiceCard navigation={navigation} />
       <Text onPress={() => navigation.navigate('Login')}>Login Screen</Text>
     </>

@@ -10,7 +10,7 @@ const InvoiceDetailsItems = () => {
   return (
     <View style={styles.container}>
       {singleInvoice?.items?.map(item => (
-        <View key={item._id} style={styles.list}>
+        <View key={item?._id} style={styles.list}>
           <View>
             <Text style={styles.product} category="s1">
               {item.name}

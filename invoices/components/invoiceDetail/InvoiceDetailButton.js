@@ -5,7 +5,7 @@ import {color} from '../../utils/Colors';
 
 const InvoiceDetailButton = () => {
   return (
-    <Card activeOpacity={0.0} style={styles.card}>
+    <Card style={styles.card}>
       <View style={styles.buttonContainer}>
         <TouchableOpacity>
           <View style={styles.buttonEdit}>
