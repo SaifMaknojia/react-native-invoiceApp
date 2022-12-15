@@ -10,17 +10,17 @@ const InvoiceDetailsItems = () => {
   return (
     <View style={styles.container}>
       {singleInvoice?.items?.map(item => (
-        <View style={styles.list}>
+        <View key={item._id} style={styles.list}>
           <View>
             <Text style={styles.product} category="s1">
               {item.name}
             </Text>
             <Text category="c2" style={styles.fontColor}>
-              {item.quantity} x ${parseInt(item.price).toFixed(2)}
+              {item.quantity} x ${Number(item.price).toFixed(2)}
             </Text>
           </View>
           <View>
-            <Text>${parseInt(item.total).toFixed(2)}</Text>
+            <Text>${Number(item.total).toFixed(2)}</Text>
           </View>
         </View>
       ))}

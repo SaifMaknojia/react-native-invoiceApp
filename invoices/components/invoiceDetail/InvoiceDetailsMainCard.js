@@ -1,5 +1,5 @@
 import React from 'react';
-import {Card, Text} from '@ui-kitten/components';
+import {Card} from '@ui-kitten/components';
 import {View, StyleSheet} from 'react-native';
 import InvoiceDetailAddress from './InvoiceDetailAddress';
 import InvoiceDetailDate from './InvoiceDetailDate';
@@ -12,7 +12,7 @@ import {useSelector} from 'react-redux';
 const InvoiceDetailsMainCard = () => {
   const {singleInvoice} = useSelector(state => state.individualInvoice);
   return (
-    <Card style={{marginTop: 20, paddingBottom: 0}}>
+    <Card style={styles.card}>
       <InvoiceDetailTitle />
       <InvoiceDetailAddress address={singleInvoice.senderAddress} />
       <View style={styles.wrapper}>
@@ -44,6 +44,10 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     marginTop: 25,
+  },
+  card: {
+    marginTop: 20,
+    paddingBottom: 0,
   },
 });
 

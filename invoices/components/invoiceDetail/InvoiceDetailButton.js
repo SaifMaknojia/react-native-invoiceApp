@@ -1,4 +1,4 @@
-import {SafeAreaView, StyleSheet, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {Card, Text} from '@ui-kitten/components';
 import {color} from '../../utils/Colors';

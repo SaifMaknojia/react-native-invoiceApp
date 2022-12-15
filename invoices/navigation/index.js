@@ -1,5 +1,5 @@
+import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {View} from 'react-native';
 import InvoiceDetailScreen from '../screens/InvoiceDetailScreen';
 import InvoiceHomeScreen from '../screens/InvoiceHomeScreen';
 import RegisterScreen from '../screens/RegisterScreen';

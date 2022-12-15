@@ -8,8 +8,8 @@ const InvoiceDetailTitle = () => {
   const {singleInvoice} = useSelector(state => state.individualInvoice);
 
   return (
-    <View style={{marginTop: 20, marginBottom: 25}}>
-      <View style={{flexDirection: 'row'}}>
+    <View style={styles.container}>
+      <View style={styles.invoiceNumber}>
         <Text style={styles.fontColor} category="h6">
           #
         </Text>
@@ -26,6 +26,13 @@ const InvoiceDetailTitle = () => {
 const styles = StyleSheet.create({
   fontColor: {
     color: color.fontBlue,
+  },
+  container: {
+    marginTop: 20,
+    marginBottom: 25,
+  },
+  invoiceNumber: {
+    flexDirection: 'row',
   },
 });
 

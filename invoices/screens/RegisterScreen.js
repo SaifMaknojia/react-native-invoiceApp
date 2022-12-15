@@ -85,7 +85,7 @@ const RegisterScreen = ({navigation}) => {
           setFieldValue,
         }) => (
           <>
-            <View style={{marginTop: 10}}>
+            <View style={styles.mt10}>
               <CustomFormInput
                 placeholder="First Name"
                 onChangeText={handleChange('firstName')}
@@ -225,8 +225,6 @@ const styles = StyleSheet.create({
   footer: {
     flexDirection: 'row',
     marginTop: 15,
-    marginTop: 10,
-    flexDirection: 'row',
     paddingHorizontal: 20,
     fontSize: 5,
   },
@@ -240,6 +238,9 @@ const styles = StyleSheet.create({
     fontSize: 10,
     paddingHorizontal: 25,
     marginVertical: 5,
+  },
+  mt10: {
+    marginTop: 10,
   },
 });
 

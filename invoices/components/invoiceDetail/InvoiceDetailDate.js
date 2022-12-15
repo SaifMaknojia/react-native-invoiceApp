@@ -4,9 +4,8 @@ import {color} from '../../utils/Colors';
 import {Text} from '@ui-kitten/components';
 
 const InvoiceDetailDate = ({date}) => {
-  //2 props Title and date
   return (
-    <View style={{marginBottom: 20}}>
+    <View style={styles.container}>
       <Text style={styles.fontColor}>Invoice Date</Text>
       <Text category="s1" style={styles.information}>
         {date}
@@ -22,6 +21,9 @@ const styles = StyleSheet.create({
   information: {
     color: '#000',
     fontWeight: '700',
+  },
+  container: {
+    marginBottom: 20,
   },
 });
 
