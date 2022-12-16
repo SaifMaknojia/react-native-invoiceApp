@@ -2,24 +2,14 @@ import {View, StyleSheet, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {Text} from '@ui-kitten/components';
 import HomeScreenNavModal from './HomeScreenNavModal';
-import {useDispatch, useSelector} from 'react-redux';
-import {addNewInvoice} from '../../redux/slice/NewInvoiceSlice';
+import {useSelector} from 'react-redux';
 
 const HomeScreenNav = ({navigation}) => {
-  const [showModal, setShowModal] = React.useState(false);
   const {invoice} = useSelector(state => state.allUserInvoices);
-  const dispatch = useDispatch();
-  const {isShown} = useSelector(state => state.generateNewInvoice);
-  console.log(isShown);
-  const handleNewInvoice = () => {
-    dispatch(addNewInvoice(!isShown));
 
+  const handleNewInvoice = () => {
     navigation.navigate('AddNewInvoiceScreen');
   };
-  /*  const handleNewInvoice = () => {
-    setShowModal(!showModal);
-    //   console.log(navigation.navigate('AddNewInvoiceScreen'));
-  }; */
   return (
     <View style={styles.container}>
       <View style={styles.invoice}>

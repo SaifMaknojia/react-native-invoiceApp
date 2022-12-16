@@ -6,9 +6,7 @@ import {color} from '../utils/Colors';
 const GoBack = ({navigation}) => {
   return (
     <TouchableOpacity onPress={() => navigation.navigate('InvoiceHomeScreen')}>
-      <View
-        onPress={() => navigation.navigate('InvoiceHomeScreen')}
-        style={{flexDirection: 'row', alignItems: 'center'}}>
+      <View style={{flexDirection: 'row', alignItems: 'center'}}>
         <Icon
           style={{width: 30, height: 30}}
           name="arrow-back-outline"

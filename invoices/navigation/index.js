@@ -12,6 +12,11 @@ function MyStack() {
   return (
     <Stack.Navigator>
       <Stack.Screen
+        name="AddNewInvoiceScreen"
+        component={AddNewInvoiceScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
         name="Login"
         component={SignInScreen}
         options={{headerShown: false}}
@@ -27,13 +32,6 @@ function MyStack() {
         options={{headerShown: false}}
       />
 
-      <Stack.Group screenOptions={{presentation: 'modal'}}>
-        <Stack.Screen
-          name="AddNewInvoiceScreen"
-          component={AddNewInvoiceScreen}
-          options={{headerShown: false}}
-        />
-      </Stack.Group>
       <Stack.Screen
         name="InvoiceDetailScreen"
         component={InvoiceDetailScreen}
