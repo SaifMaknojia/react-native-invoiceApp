@@ -10,6 +10,7 @@ const Address = ({values, handleChange, name}) => {
         placeholder="Enter your Street"
         label="Street Address"
         name={`${name}.street`}
+        values={values?.street}
       />
       <View style={styles.holder}>
         <View style={styles.width48}>
@@ -18,6 +19,7 @@ const Address = ({values, handleChange, name}) => {
             placeholder="City"
             label="City"
             name={`${name}.city`}
+            values={values?.city}
           />
         </View>
         <View style={styles.width48}>
@@ -26,6 +28,7 @@ const Address = ({values, handleChange, name}) => {
             placeholder="Postal Code"
             label="Postal Code"
             name={`${name}.postCode`}
+            values={values?.postCode}
           />
         </View>
       </View>
@@ -34,6 +37,7 @@ const Address = ({values, handleChange, name}) => {
         placeholder="Country"
         label="Country"
         name={`${name}.country`}
+        values={values?.country}
       />
     </View>
   );

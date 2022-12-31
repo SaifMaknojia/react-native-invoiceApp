@@ -15,7 +15,7 @@ const CustomInput = ({
     <Input
       style={errors && touched ? [styles.error, styles.input] : styles.input}
       placeholder={placeholder}
-      // value={values}
+      value={values}
       onChangeText={handleChange(name)}
       size="large"
       label={label ? label : ''}

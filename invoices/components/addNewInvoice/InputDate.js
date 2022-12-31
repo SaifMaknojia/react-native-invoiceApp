@@ -1,20 +1,26 @@
 import React from 'react';
 
-import {Datepicker, Icon, Layout, Text} from '@ui-kitten/components';
-import {StyleSheet, View} from 'react-native';
+import {Datepicker, Icon} from '@ui-kitten/components';
+import {View} from 'react-native';
 
 const CalendarIcon = props => <Icon {...props} name="calendar" />;
 
-const InputDate = () => {
-  const [date, setDate] = React.useState(new Date());
+const InputDate = ({setFieldValue, values}) => {
+  const [date, setDate] = React.useState();
   //Keep it to ISO String
+
+  const handleDate = newDate => {
+    setFieldValue('createdAt', newDate);
+    setDate(newDate);
+  };
   return (
     <View>
       <Datepicker
         label="Invoice Date"
         placeholder="Pick Date"
         date={date}
-        onSelect={nextDate => setDate(nextDate)}
+        value={values}
+        onSelect={nextDate => handleDate(nextDate)}
         accessoryRight={CalendarIcon}
       />
     </View>

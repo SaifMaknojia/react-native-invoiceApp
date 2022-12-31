@@ -1,5 +1,6 @@
 import * as yup from 'yup';
 
+// rough skeleton
 export const newInvoiceSchema = yup.object().shape({
   email: yup
     .string()

@@ -13,14 +13,20 @@ const BillTo = ({handleChange, values}) => {
           placeholder="Name"
           label="Client Name"
           name="clientName"
+          values={values.clientName}
         />
         <CustomInput
           handleChange={handleChange}
           placeholder="Email"
           label="Client Email"
           name="clientEmail"
+          values={values.clientEmail}
         />
-        <Address name="clientAddress" handleChange={handleChange} />
+        <Address
+          values={values.clientAddress}
+          name="clientAddress"
+          handleChange={handleChange}
+        />
       </View>
     </View>
   );
